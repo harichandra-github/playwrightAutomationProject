@@ -4,14 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="45e6d964-0cac-4b36-b773-6e77325d3716" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    <list default="true" id="45e6d964-0cac-4b36-b773-6e77325d3716" name="Changes" comment="First Commit Created the project structure">
       <change afterPath="$PROJECT_DIR$/src/main/java/com/qa/saucedemo/factory/PlaywrightFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/qa/saucedemo/pages/HomePage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/qa/saucedemo/pages/LoginPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/qa/saucedemo/logintests/LoginTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +24,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="browsersetup" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
@@ -44,6 +47,8 @@
     "Maven. [org.apache.maven.plugins:maven-archetype-plugin:RELEASE:generate].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "TestNG.LoginTest.executor": "Run",
+    "TestNG.LoginTest.loginToApp.executor": "Run",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -53,6 +58,49 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager" selected="TestNG.LoginTest">
+    <configuration name="LoginTest" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="playwrightAutomationProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.qa.saucedemo.logintests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.qa.saucedemo.logintests" />
+      <option name="MAIN_CLASS_NAME" value="com.qa.saucedemo.logintests.LoginTest" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="LoginTest.loginToApp" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="playwrightAutomationProject" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.qa.saucedemo.logintests.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.qa.saucedemo.logintests" />
+      <option name="MAIN_CLASS_NAME" value="com.qa.saucedemo.logintests.LoginTest" />
+      <option name="METHOD_NAME" value="loginToApp" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="TestNG.LoginTest" />
+        <item itemvalue="TestNG.LoginTest.loginToApp" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -68,11 +116,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1725652323057</updated>
-      <workItem from="1725652324597" duration="894000" />
+      <workItem from="1725652324597" duration="2853000" />
     </task>
+    <task id="LOCAL-00001" summary="First Commit Created the project structure">
+      <option name="closed" value="true" />
+      <created>1725653288553</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1725653288553</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First Commit Created the project structure" />
+    <option name="LAST_COMMIT_MESSAGE" value="First Commit Created the project structure" />
   </component>
 </project>
