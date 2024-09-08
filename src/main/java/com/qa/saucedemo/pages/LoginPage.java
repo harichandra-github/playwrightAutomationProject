@@ -16,12 +16,13 @@ public class LoginPage {
      }
 
      public void loginToApp(String userName, String pass){
-         System.out.println("Going to login to the Application");
+         System.out.println("Going to login to the Application for "+userName);
 
          page.locator(username).fill(userName);
          page.locator(password).fill(pass);
          page.click(loginButton);
          System.out.println("Login Successful");
      }
+
 
 }
