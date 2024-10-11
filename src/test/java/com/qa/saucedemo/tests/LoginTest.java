@@ -2,6 +2,7 @@ package com.qa.saucedemo.tests;
 
 import com.microsoft.playwright.Page;
 import com.qa.saucedemo.base.BaseTest;
+import com.qa.saucedemo.constants.AppConstants;
 import com.qa.saucedemo.factory.PlaywrightFactory;
 import com.qa.saucedemo.pages.HomePage;
 import com.qa.saucedemo.pages.LoginPage;
@@ -23,9 +24,10 @@ public class LoginTest extends BaseTest {
         HomePage homePage=new HomePage(page);
 
 
-        loginPage.loginToApp("standard_user","secret_sauce");
-        Assert.assertEquals(homePage.getPageTitle(),"Swag Labs");
-        Assert.assertEquals(homePage.getPageURL(),"https://www.saucedemo.com/inventory.html");
+       // loginPage.loginToApp("standard_user","secret_sauce");
+        loginPage.loginToApp(prop.getProperty("username"),prop.getProperty("password"));
+        Assert.assertEquals(homePage.getPageTitle(), AppConstants.title);
+        Assert.assertEquals(homePage.getPageURL(),AppConstants.url);
 
     }
 

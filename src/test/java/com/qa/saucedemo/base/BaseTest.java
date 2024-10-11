@@ -14,7 +14,7 @@ public class BaseTest {
     PlaywrightFactory playwrightFactory;
     protected static ExtentReports extent;
     protected Page page;
-    Properties prop;
+   protected Properties prop;
 
 
     private static void initializeLogger() {
