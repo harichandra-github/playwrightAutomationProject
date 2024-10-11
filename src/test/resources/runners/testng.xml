@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Automation suite">
+
+    <listeners>
+
+        <listener class-name="com.qa.saucedemo.listeners.ExtentManager"/>
+        <listener class-name="com.qa.saucedemo.listeners.RetryListener"/>
+
+    </listeners>
+
+
+    <test thread-count="5" name="BP ">
+        <classes>
+            <class name="com.qa.saucedemo.tests.LoginTest"/>
+        </classes>
+
+
+
+    </test> <!-- Test -->
+</suite> <!-- Suite -->
