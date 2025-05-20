@@ -31,6 +31,9 @@ public class Log {
         logger.info(message);
 
     }
+    public static void info(String message, Object... args) {
+        logger.info(message, args);
+    }
 
     public static void error(String message) {
         logger.error(message);
@@ -48,6 +51,13 @@ public class Log {
         logger.warn(message);
     }
 
+    public static void error(String message, Object... args) {
+        logger.error(message, args);
+    }
+
+    public static void warn(String message, Object... args) {
+        logger.warn(message, args);
+    }
 
 
 }
