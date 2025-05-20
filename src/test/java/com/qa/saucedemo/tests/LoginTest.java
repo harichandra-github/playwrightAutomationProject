@@ -1,9 +1,7 @@
 package com.qa.saucedemo.tests;
 
-import com.microsoft.playwright.Page;
 import com.qa.saucedemo.base.BaseTest;
 import com.qa.saucedemo.constants.AppConstants;
-import com.qa.saucedemo.factory.PlaywrightFactory;
 import com.qa.saucedemo.pages.HomePage;
 import com.qa.saucedemo.pages.LoginPage;
 import org.testng.Assert;
@@ -18,10 +16,8 @@ public class LoginTest extends BaseTest {
     @Test
     public void loginToApp() throws InterruptedException {
 
-
-
-        LoginPage loginPage=new LoginPage(page);
-        HomePage homePage=new HomePage(page);
+        LoginPage loginPage=new LoginPage(page,logger);
+        HomePage homePage=new HomePage(page,logger);
 
 
        // loginPage.loginToApp("standard_user","secret_sauce");
@@ -31,17 +27,13 @@ public class LoginTest extends BaseTest {
 
     }
 
-//    @Test
-//    public void navigateToHome(){
-//        LoginPage loginPage=new LoginPage(page);
-//        HomePage homePage=new HomePage(page);
-//
-//
-//        loginPage.loginToApp("standard_user","secret_sauce");
-//        Assert.assertEquals(homePage.getPageTitle(),"Products");
-//        Assert.assertEquals(homePage.getPageURL(),"https://www.saucedemo.com/inventory.html");
-//
-//    }
+    @Test
+    public void navigateToHome(){
+        HomePage homePage=new HomePage(page, logger);
+        Assert.assertEquals(homePage.getPageTitle(),AppConstants.homePageTitle);
+        Assert.assertEquals(homePage.getPageURL(),AppConstants.homePageUrl);
+
+    }
 
 
 
