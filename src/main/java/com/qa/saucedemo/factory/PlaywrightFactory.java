@@ -1,6 +1,8 @@
 package com.qa.saucedemo.factory;
 
 import com.microsoft.playwright.*;
+import com.qa.saucedemo.exceptions.BrowserNotFoundException;
+import com.qa.saucedemo.logger.Log;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,43 +16,53 @@ public class PlaywrightFactory {
     BrowserContext browserContext;
     Page page;
     Properties prop;
+    OptionsManager optionsManager;
 
     /**
      * This method is used to initiliaze browser
-     * @param browserName
-     * @return
      */
-    public Page initBrowser(String browserName){
-        System.out.println("Browser name is :"+ browserName);
-        playwright=Playwright.create();
-        switch (browserName.toLowerCase()){
-            case "chromium":
-                browser=playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false));
-                break;
+    public Page initBrowser(Properties prop) {
+        this.prop = prop;
+        String browserName = prop.getProperty("browser");
+        Log.info("Browser name is: " + browserName);
+
+        playwright = Playwright.create();
+        optionsManager = new OptionsManager(prop); // Initialize OptionsManager with properties
+
+        switch (browserName.toLowerCase().trim()) {
             case "chrome":
-                browser=playwright.chromium().launch(new BrowserType.LaunchOptions().setChannel("chrome").setHeadless(false));
+                Log.info("Running tests on Local - Chrome");
+                browser = playwright.chromium().launch(optionsManager.getChromeOptions());
                 break;
+
             case "firefox":
-                browser=playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(false));
+                Log.info("Running tests on Local - Firefox");
+                browser = playwright.firefox().launch(optionsManager.getFirefoxOptions());
                 break;
+
+            case "edge":
+                Log.info("Running tests on Local - Edge");
+                browser = playwright.chromium().launch(optionsManager.getEdgeOptions());
+                break;
+
             case "safari":
-                browser=playwright.webkit().launch(new BrowserType.LaunchOptions().setHeadless(false));
+                Log.info("Running tests on Local - Safari");
+                browser = playwright.webkit().launch(optionsManager.getSafariOptions());
                 break;
+
             default:
-                System.out.println("Please pass the correct browser name: "+browserName);
-                break;
+                Log.error("Please pass the right browser name: " + browserName);
+                throw new BrowserNotFoundException("====BROWSER NOT FOUND=====");
         }
 
-        browserContext=browser.newContext();
-        page= browserContext.newPage();
-
-        page.navigate(prop.getProperty("url"));
+        // Create a new browser context and page
+        page = browser.newContext().newPage();
+        Log.info("Browser setup complete and Browser launched successfully");
+        page.context().setDefaultTimeout(30000); // Set default timeout for actions
+        page.navigate(prop.getProperty("url2")); // Navigate to the URL from properties
 
         return page;
-
-
     }
-
     /**
      * This method is used to initialize properties from config file
      *

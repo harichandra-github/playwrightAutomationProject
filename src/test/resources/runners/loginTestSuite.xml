@@ -7,10 +7,11 @@
         <listener class-name="com.qa.saucedemo.listeners.ExtentManager"/>
         <listener class-name="com.qa.saucedemo.listeners.RetryListener"/>
 
+
     </listeners>
 
 
-    <test thread-count="5" name="SauceDemo">
+    <test name="Login Test ">
         <classes>
             <class name="com.qa.saucedemo.tests.LoginTest"/>
         </classes>

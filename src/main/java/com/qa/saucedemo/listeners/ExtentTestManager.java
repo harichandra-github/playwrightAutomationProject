@@ -16,6 +16,10 @@ public class ExtentTestManager {
         extentTest.remove();
     }
 
+    public static void setTest(ExtentTest test) {
+        extentTest.set(test);
+    }
+
     // Start a new test for the current thread
     public static synchronized void startTest(String testName) {
         ExtentTest test = ExtentManager.getInstance().createTest(testName);

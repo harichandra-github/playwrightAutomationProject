@@ -4,6 +4,8 @@ import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.Status;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+import com.qa.saucedemo.constants.AppConstants;
+import com.qa.saucedemo.logger.Log;
 import com.qa.saucedemo.utilities.CommonFunctions;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
@@ -11,8 +13,11 @@ import org.testng.ITestResult;
 
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Properties;
 
 public class ExtentManager implements ITestListener {
 
@@ -26,11 +31,29 @@ public class ExtentManager implements ITestListener {
     private static String reportFileLocation = System.getProperty("user.dir") + "/Reports/TestReport/" + reportFileName;
 
 
-  
-    
-    
+    int passed = 0, failed = 0, skipped = 0;
+
+
+
+
     // Method to create an ExtentReports instance
     private static ExtentReports createInstance() {
+        Properties testConfig = new Properties(System.getProperties());
+        try (FileInputStream fileInput = new FileInputStream(AppConstants.CONFIG_FILE_PATH)) {
+            testConfig.load(fileInput);
+
+            // Override with environment variables if present
+            for (String key : testConfig.stringPropertyNames()) {
+                String envValue = System.getenv(key);
+                if (envValue != null) {
+                    testConfig.setProperty(key, envValue);
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
         String fileName = getReportPath(reportFilepath);
 
         ExtentSparkReporter sparkReporter = new ExtentSparkReporter(fileName);
@@ -53,9 +76,13 @@ public class ExtentManager implements ITestListener {
         extent.setSystemInfo("Java Version", System.getProperty("java.version"));
         extent.setSystemInfo("Host Name", getHostName());
         extent.setSystemInfo("Environment", "QA");
+        extent.setSystemInfo("Browser",testConfig.getProperty("browser","chrome"));
+        extent.setSystemInfo("Browser",testConfig.getProperty("browser","chrome"));
+        extent.setSystemInfo("Headless Mode",testConfig.getProperty("headless","false"));
+        extent.setSystemInfo("Incognito Mode",testConfig.getProperty("incognito", "false"));
 
-        
-        
+
+
 
         return extent;
     }
@@ -89,23 +116,23 @@ public class ExtentManager implements ITestListener {
 
         if (!reportsDirectory.exists()) {
             if (reportsDirectory.mkdir()) {
-                System.out.println("Reports directory created!");
+                Log.info("Reports directory created!");
             } else {
-                System.out.println("Failed to create Reports directory.");
+               Log.error("Failed to create Reports directory.");
                 return System.getProperty("user.dir");
             }
         }
 
         if (!testDirectory.exists()) {
             if (testDirectory.mkdir()) {
-                System.out.println("TestReport directory created!");
+                Log.info("TestReport directory created!");
                 return reportFileLocation;
             } else {
-                System.out.println("Failed to create TestReport directory.");
+               Log.error("Failed to create TestReport directory.");
                 return System.getProperty("user.dir");
             }
         } else {
-            System.out.println("Directory already exists: " + path);
+            Log.info("Directory already exists: " + path);
         }
         return reportFileLocation;
     }
@@ -113,35 +140,44 @@ public class ExtentManager implements ITestListener {
     // TestNG listener methods
     @Override
     public void onStart(ITestContext context) {
-        System.out.println("*** Test Suite " + context.getName() + " started ***");
+        Log.info("*** Test Suite " + context.getName() + " started ***");
 
     }
 
     @Override
     public void onFinish(ITestContext context) {
-        System.out.println("*** Test Suite " + context.getName() + " ending ***");
+        int total = passed + failed + skipped;
+        extent.setSystemInfo("Total Tests", String.valueOf(total));
+        extent.setSystemInfo("Passed", String.valueOf(passed));
+        extent.setSystemInfo("Failed", String.valueOf(failed));
+        extent.setSystemInfo("Skipped", String.valueOf(skipped));
+        Log.info("*** Test Suite " + context.getName() + " ending ***");
+        Log.info("*** Test Suite " + context.getName() + " ending ***");
+        Log.info("*** Total Tests: " + total);
+        Log.info("*** Passed: " + passed);
+        Log.info("** Failed: " + failed);
+        Log.info("*** Skipped: " + skipped);
         ExtentManager.getInstance().flush();  // Ensure flushing happens only once at the end of the test suite
     }
 
     @Override
     public void onTestStart(ITestResult result) {
-        System.out.println("*** Running test method " + result.getMethod().getMethodName() + "...");
-        ExtentTestManager.startTest(result.getMethod().getMethodName());
-
-       // ExtentTestManager.getTest().log(Status.INFO, "Starting test: " + result.getMethod().getMethodName());
-        ExtentTestManager.getTest().log(Status.INFO, "Starting test: " + result.getMethod().getMethodName());
+        Log.info("*** Running test method " + result.getMethod().getMethodName() + "...");
+        //ExtentTestManager.startTest(result.getMethod().getMethodName());
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-        System.out.println("*** Executed " + result.getMethod().getMethodName() + " test successfully...");
+        passed++;
+        Log.info("*** Executed " + result.getMethod().getMethodName() + " test successfully...");
         ExtentTestManager.getTest().log(Status.PASS, "Test passed");
         ExtentTestManager.endTest();
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
-        System.out.println("*** Test execution " + result.getMethod().getMethodName() + " failed...");
+        failed++;
+        Log.error("*** Test execution " + result.getMethod().getMethodName() + " failed...");
         ExtentTestManager.getTest().log(Status.FAIL, "Test Failed");
         ExtentTestManager.getTest().log(Status.FAIL, result.getThrowable());
         ExtentTestManager.endTest();
@@ -149,13 +185,14 @@ public class ExtentManager implements ITestListener {
 
     @Override
     public void onTestSkipped(ITestResult result) {
-        System.out.println("*** Test " + result.getMethod().getMethodName() + " skipped...");
+        skipped++;
+        Log.warn("*** Test " + result.getMethod().getMethodName() + " skipped...");
         ExtentTestManager.getTest().log(Status.SKIP, "Test Skipped");
         ExtentTestManager.endTest();
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-        System.out.println("*** Test failed but within success percentage " + result.getMethod().getMethodName() + "...");
+        Log.warn("*** Test failed but within success percentage " + result.getMethod().getMethodName() + "...");
     }
 }
