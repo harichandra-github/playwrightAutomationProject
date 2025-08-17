@@ -1,6 +1,7 @@
 package com.qa.saucedemo.pages;
 
 import com.microsoft.playwright.Page;
+import com.qa.saucedemo.logger.Log;
 
 public class HomePage {
     Page page;
@@ -21,40 +22,40 @@ public class HomePage {
     }
 
     public void clickMenu(){
-        System.out.println("Going to click the Menu");
+        Log.info("Going to click the Menu");
         page.click(menu);
-        System.out.println("Successfully clicked on Menu");
+        Log.info("Successfully clicked on Menu");
     }
 
     public void selectFilter(String filterName){
-        System.out.println("Going to select filter option");
+        Log.info("Going to select filter option");
         page.locator(filter).selectOption(filterName);
-        System.out.println("selected "+filterName+" filter");
+        Log.info("selected "+filterName+" filter");
 
     }
 
     public void clickShoppingCart(){
-        System.out.println("Going to click the shopping cart");
+        Log.info("Going to click the shopping cart");
         page.click(cart);
-        System.out.println("Successfully clicked on cart");
+        Log.info("Successfully clicked on cart");
     }
     public void clickCrossButton(){
-        System.out.println("Going to click the cross buttton");
+        Log.info("Going to click the cross buttton");
         page.click(crossButton);
-        System.out.println("Successfully clicked on cross button");
+        Log.info("Successfully clicked on cross button");
     }
 
 
     public String getPageTitle(){
         String pagetitle=page.title();
 
-        System.out.println("page title is : "+pagetitle);
+        Log.info("page title is : "+pagetitle);
         return pagetitle;
 
     }
     public String getPageURL(){
         String PageURL=page.url();
-        System.out.println("page url is : "+PageURL);
+        Log.info("page url is : "+PageURL);
         return PageURL;
 
     }
