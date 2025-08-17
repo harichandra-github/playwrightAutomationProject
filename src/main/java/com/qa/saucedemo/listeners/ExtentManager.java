@@ -127,6 +127,9 @@ public class ExtentManager implements ITestListener {
     public void onTestStart(ITestResult result) {
         System.out.println("*** Running test method " + result.getMethod().getMethodName() + "...");
         ExtentTestManager.startTest(result.getMethod().getMethodName());
+
+       // ExtentTestManager.getTest().log(Status.INFO, "Starting test: " + result.getMethod().getMethodName());
+        ExtentTestManager.getTest().log(Status.INFO, "Starting test: " + result.getMethod().getMethodName());
     }
 
     @Override
