@@ -10,7 +10,7 @@
     </listeners>
 
 
-    <test thread-count="5" name="BP ">
+    <test thread-count="5" name="SauceDemo">
         <classes>
             <class name="com.qa.saucedemo.tests.LoginTest"/>
         </classes>
