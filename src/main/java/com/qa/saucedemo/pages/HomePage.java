@@ -3,19 +3,23 @@ package com.qa.saucedemo.pages;
 import com.aventstack.extentreports.ExtentTest;
 import com.microsoft.playwright.Page;
 import com.qa.saucedemo.logger.Log;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomePage {
     ExtentTest logger;
     Page page;
-    private String title = "//span[@class='title']";
-    private String menu = "//button[@id='react-burger-menu-btn']";
-    private String filter = "//select[@class='product_sort_container']";
-    private String cart = "//a[@class='shopping_cart_link']";
-    private String allItems = "//a[@id='inventory_sidebar_link']";
-    private String about = "//a[@id='about_sidebar_link']";
-    private String logout = "#logout_sidebar_link";
-    private String resetState = "//a[@id='reset_sidebar_link']";
-    private String crossButton = "//button[@id='react-burger-cross-btn']";
+    private final String title = "//span[@class='title']";
+    private final String menu = "//button[@id='react-burger-menu-btn']";
+    private final String filter = "//select[@data-test='product-sort-container']";
+    private final String cart = "//a[@class='shopping_cart_link']";
+    private final String allItems = "//a[@id='inventory_sidebar_link']";
+    private final String about = "//a[@id='about_sidebar_link']";
+    private final String logout = "#logout_sidebar_link";
+    private final String resetState = "//a[@id='reset_sidebar_link']";
+    private final String crossButton = "//button[@id='react-burger-cross-btn']";
+    private final String productNames = "//div[@data-test='inventory-item-name']";
+    private final String productPrices = "//div[@data-test='inventory-item-price']";
 
 
     public HomePage(Page page, ExtentTest logger) {
@@ -93,5 +97,50 @@ public class HomePage {
         return pageURL;
 
     }
+    public List<String> getAllProductNames() {
+        try {
+            Log.info("Getting product names from the home page");
+            List<String> products = page.locator(productNames).allTextContents();
+            Log.info("Product names retrieved: " + products);
+            logger.info("Product names retrieved: " + products);
+            return products;
+        } catch (RuntimeException e) {
+            Log.error("Failed to get product names: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Double> getAllProductPrices() {
+        try {
+            Log.info("Getting product prices from the home page");
+            List<String> priceStrings = page.locator(productPrices).allTextContents();
+            List<Double> prices = new ArrayList<>();
+
+            for (String price : priceStrings) {
+                prices.add(Double.parseDouble(price.replace("$", "").trim()));
+            }
+
+            Log.info("Product prices retrieved: " + prices);
+            logger.info("Product prices retrieved: " + prices);
+            return prices;
+        } catch (RuntimeException e) {
+            Log.error("Failed to get product prices: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public void logoutFromApp() {
+        try {
+            Log.info("Going to logout from the application");
+            clickMenu();
+            page.click(logout);
+            Log.info("Successfully logged out from the application");
+            logger.info("Successfully logged out from the application");
+        } catch (RuntimeException e) {
+            Log.error("Failed to logout from the application: " + e.getMessage());
+        }
+    }
+
+
 }
 
