@@ -10,9 +10,10 @@ public class LoginPage {
     Page page;
     ExtentTest logger;
     //Locators
-    private String username = "//input[@id='user-name']";
-    private String password = "//input[@id='password']";
-    private String loginButton = "//input[@id='login-button']";
+    private final String username = "//input[@id='user-name']";
+    private final String password = "//input[@id='password']";
+    private final String loginButton = "//input[@id='login-button']";
+    private final String errorMessage = "h3[data-test='error']";
 
 
     public LoginPage(Page page, ExtentTest logger) {
@@ -95,6 +96,25 @@ public class LoginPage {
             Log.error("Failed to click on login button: " + e.getMessage());
         }
 
-
     }
+
+    public String getErrorMessage() {
+        try {
+            String errorMsg = page.locator(errorMessage).innerText();
+            Log.info("Error message displayed: " + errorMsg);
+            logger.info("Error message displayed: " + errorMsg);
+            return errorMsg;
+        } catch (Exception e) {
+            Log.error("Failed to get error message: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public String loginWithCredentials(String username, String password) {
+        enterUserName(username);
+        enterPassword(password);
+        clickLoginButton();
+        return getErrorMessage();
+    }
+
 }
