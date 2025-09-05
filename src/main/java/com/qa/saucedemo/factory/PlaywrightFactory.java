@@ -59,7 +59,7 @@ public class PlaywrightFactory {
         page = browser.newContext().newPage();
         Log.info("Browser setup complete and Browser launched successfully");
         page.context().setDefaultTimeout(30000); // Set default timeout for actions
-        page.navigate(prop.getProperty("url2")); // Navigate to the URL from properties
+        page.navigate(prop.getProperty("url1")); // Navigate to the URL from properties
 
         return page;
     }
@@ -74,8 +74,6 @@ public class PlaywrightFactory {
             fileInputStream = new FileInputStream("./src/test/resources/config/config.properties");
             prop = new Properties();
             prop.load(fileInputStream);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
